@@ -2,4 +2,4 @@ sudo: false # faster builds
 
 language: java
 
-jdk: oraclejdk11
+jdk: openjdk11

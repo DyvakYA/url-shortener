@@ -18,8 +18,8 @@ public class LongUrl {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LongUrl longUrl1 = (LongUrl) o;
-        return Objects.equals(longUrl, longUrl1.longUrl);
+        LongUrl longUrl = (LongUrl) o;
+        return Objects.equals(longUrl, longUrl.longUrl);
     }
 
     @Override

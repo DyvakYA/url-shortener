@@ -5,12 +5,15 @@ import java.util.Objects;
 public class DynamicLink {
 
     private String kind;
-    private String id;
+    private String shortUrl;
     private String longUrl;
 
-    DynamicLink(String kind, String id, String longUrl) {
+    public DynamicLink() {
+    }
+
+    DynamicLink(String kind, String shortUrl, String longUrl) {
         this.kind = kind;
-        this.id = id;
+        this.shortUrl = shortUrl;
         this.longUrl = longUrl;
     }
 
@@ -56,12 +59,12 @@ public class DynamicLink {
         this.kind = kind;
     }
 
-    public String getId() {
-        return id;
+    public String getShortUrl() {
+        return shortUrl;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
     }
 
     public String getLongUrl() {
@@ -78,23 +81,21 @@ public class DynamicLink {
         if (o == null || getClass() != o.getClass()) return false;
         DynamicLink that = (DynamicLink) o;
         return Objects.equals(kind, that.kind) &&
-                Objects.equals(id, that.id) &&
+                Objects.equals(shortUrl, that.shortUrl) &&
                 Objects.equals(longUrl, that.longUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(kind, id, longUrl);
+        return Objects.hash(kind, shortUrl, longUrl);
     }
 
     @Override
     public String toString() {
         return "DynamicLink{" +
                 "kind='" + kind + '\'' +
-                ", id='" + id + '\'' +
+                ", shortUrl='" + shortUrl + '\'' +
                 ", longUrl='" + longUrl + '\'' +
                 '}';
     }
-
-
 }

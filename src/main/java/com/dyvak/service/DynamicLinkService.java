@@ -4,18 +4,25 @@ import com.dyvak.entity.DynamicLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.Optional;
 
 @Service
 public class DynamicLinkService {
 
     @Autowired
-    private LinkPool pool;
+    private DynamicLinkPool pool;
 
-    public DynamicLink createDynamicLink(String url) {
+    @Autowired
+    private LinkGenerator linkGenerator;
 
-        String shortLink = createShortLink();
-
+    public DynamicLink createDynamicLink(String url, String scheme, String serverName) {
+        if (pool.checkIfExistByUrl(url)) {
+            Optional<DynamicLink> optional = pool.getByUrl(url);
+            if (optional.isPresent()) {
+                return optional.get();
+            }
+        }
+        String shortLink = linkGenerator.generate(scheme, serverName);
         DynamicLink link = DynamicLink.builder()
                 .kind("urlshortener#url")
                 .id(shortLink)
@@ -24,19 +31,5 @@ public class DynamicLinkService {
 
         pool.put(link);
         return link;
-    }
-
-    private String createShortLink() {
-        int leftLimit = 97; // letter 'a'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 6;
-        Random random = new Random();
-        StringBuilder buffer = new StringBuilder(targetStringLength);
-        for (int i = 0; i < targetStringLength; i++) {
-            int randomLimitedInt = leftLimit + (int)
-                    (random.nextFloat() * (rightLimit - leftLimit + 1));
-            buffer.append((char) randomLimitedInt);
-        }
-        return buffer.toString();
     }
 }

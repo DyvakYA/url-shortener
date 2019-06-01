@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class ShortLinkService {
 
     @Autowired
-    private LinkPool pool;
+    private DynamicLinkPool pool;
 
     public String findUrl(String url) {
         Optional<DynamicLink> optional = pool.getCorrectLink(url);
@@ -20,7 +19,7 @@ public class ShortLinkService {
             DynamicLink link = optional.get();
             return link.getLongUrl();
         } else {
-            throw new LinkNotFoundException();
+            throw new LinkNotFoundException("Link not found in our database");
         }
     }
 }
