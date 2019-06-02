@@ -1,5 +1,3 @@
-![Travis](https://travis-ci.org/DyvakYA/url-shortener.png?branch=master) 
-
 ## Usage
 
 ### Get short url
@@ -9,7 +7,7 @@
 `POST /urlshortener/v1/url`
 ```json
 {
-      "longUrl":"http://www.google.com"
+	"longUrl":"http://www.google.com"
 }
 ```
 **Response**

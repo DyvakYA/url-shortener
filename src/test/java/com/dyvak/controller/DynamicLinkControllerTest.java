@@ -11,7 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class DynamicLinkControllerTest extends AbstractControllerTest {
 
@@ -45,12 +48,12 @@ public class DynamicLinkControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void createDynamicLinkTest_whenUrlIsGood() throws Exception {
+    public void createDynamicLinkTest_whenUrlIsGoodAndSchemeIsHttp() throws Exception {
         String uri = "/urlshortener/v1/url";
-        LongUrl product = new LongUrl();
-        product.setLongUrl("http://google.com");
+        LongUrl longUrl = new LongUrl();
+        longUrl.setLongUrl("http://google.com");
 
-        String inputJson = super.mapToJson(product);
+        String inputJson = super.mapToJson(longUrl);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).andReturn();
 
@@ -60,5 +63,21 @@ public class DynamicLinkControllerTest extends AbstractControllerTest {
         DynamicLink response = super.mapFromJson(result, DynamicLink.class);
         log.info(response.toString());
         assertEquals("urlshortener#url", response.getKind());
+    }
+
+    @Test
+    public void createDynamicLinkTest_whenUrlIsGoodAndSchemeIsHttps() throws Exception {
+        String uri = "/urlshortener/v1/url";
+        LongUrl longUrl = new LongUrl();
+        longUrl.setLongUrl("https://google.com");
+
+        String inputJson = super.mapToJson(longUrl);
+        mvc.perform(MockMvcRequestBuilders.post(uri)
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.kind", is("urlshortener#url")))
+                .andExpect(jsonPath("$.longUrl", is(longUrl.getLongUrl())));
     }
 }

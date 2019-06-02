@@ -16,20 +16,19 @@ public class DynamicLinkService {
     private LinkGenerator linkGenerator;
 
     public DynamicLink createDynamicLink(String url, String scheme, String serverName) {
-        if (pool.checkIfExistByUrl(url)) {
-            Optional<DynamicLink> optional = pool.getByUrl(url);
+        if (pool.checkIfExistByLongUrl(url)) {
+            Optional<DynamicLink> optional = pool.getByLongUrl(url);
             if (optional.isPresent()) {
                 return optional.get();
             }
         }
-        String shortLink = linkGenerator.generate(scheme, serverName);
-        DynamicLink link = DynamicLink.builder()
+        String shortUrl = linkGenerator.generate(scheme, serverName);
+        DynamicLink dynamicLink = DynamicLink.builder()
                 .kind("urlshortener#url")
-                .id(shortLink)
+                .id(shortUrl)
                 .longUrl(url)
                 .build();
-
-        pool.put(link);
-        return link;
+        pool.put(dynamicLink);
+        return dynamicLink;
     }
 }

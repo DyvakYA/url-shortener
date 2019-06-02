@@ -11,26 +11,26 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ShortLinkValidatorTest {
+public class ShortUrlValidatorTest {
 
     @Autowired
-    private ShortLinkValidator shortLinkValidator;
+    private ShortUrlValidator shortUrlValidator;
 
     @Test
     public void testShortLinkIsValid_whenURISixCharacters() {
-        boolean result = shortLinkValidator.isValid("qweqwe");
+        boolean result = shortUrlValidator.isValid("qweqwe");
         assertTrue(result);
     }
 
     @Test
     public void testShortLinkIsValid_whenURIMoreThenSixCharacters() {
-        boolean result = shortLinkValidator.isValid("qweqweq");
+        boolean result = shortUrlValidator.isValid("qweqweq");
         assertFalse(result);
     }
 
     @Test
     public void testShortLinkIsValid_whenUriLessThenSixCharacters() {
-        boolean result = shortLinkValidator.isValid("qwe");
+        boolean result = shortUrlValidator.isValid("qwe");
         assertFalse(result);
     }
 }

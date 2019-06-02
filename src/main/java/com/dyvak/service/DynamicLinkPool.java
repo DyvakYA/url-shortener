@@ -29,7 +29,7 @@ public class DynamicLinkPool {
         return link != null && pool.contains(link) ? true : false;
     }
 
-    public boolean checkIfExistByUrl(String url) {
+    public boolean checkIfExistByLongUrl(String url) {
         Optional<DynamicLink> optional = pool.stream()
                 .filter(d -> url.equals(d.getLongUrl()))
                 .findAny();
@@ -39,16 +39,16 @@ public class DynamicLinkPool {
         return false;
     }
 
-    public Optional<DynamicLink> getCorrectLink(String url) {
+    public Optional<DynamicLink> getByShortUrl(String url) {
         return pool.stream()
                 .filter(l -> url.equals(l.getShortUrl()))
                 .findFirst();
     }
 
-    public Optional<DynamicLink> getByUrl(String url) {
+    public Optional<DynamicLink> getByLongUrl(String url) {
         Optional<DynamicLink> optional = pool.stream()
                 .filter(d -> url.equals(d.getLongUrl()))
-                .findAny();
+                .findFirst();
         return optional;
     }
 

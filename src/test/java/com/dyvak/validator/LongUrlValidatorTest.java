@@ -13,28 +13,28 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UrlValidatorTest {
+public class LongUrlValidatorTest {
 
-    private final static Logger log = LoggerFactory.getLogger(UrlValidatorTest.class);
+    private final static Logger log = LoggerFactory.getLogger(LongUrlValidatorTest.class);
 
     @Autowired
-    private UrlValidator urlValidator;
+    private LongUrlValidator longUrlValidator;
 
     @Test
     public void testUrlIsValid_wehnUrlIsCorrect() {
-        boolean result = urlValidator.isValidURL("http://google.com.ua");
+        boolean result = longUrlValidator.isValid("http://google.com.ua");
         assertTrue(result);
     }
 
     @Test
     public void testUrlIsValid_whenUrlIsIncorrect() {
-        boolean result = urlValidator.isValidURL("qweqweq");
+        boolean result = longUrlValidator.isValid("qweqweq");
         assertFalse(result);
     }
 
     @Test
     public void testUrlIsValid_whenUrlIsMoreIncorrect() {
-        boolean result = urlValidator.isValidURL("htttp:/111");
+        boolean result = longUrlValidator.isValid("htttp:/111");
         log.info(String.valueOf(result));
         assertFalse(result);
     }

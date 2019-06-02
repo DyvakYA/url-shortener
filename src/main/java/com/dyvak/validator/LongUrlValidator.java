@@ -7,10 +7,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 @Component
-public class UrlValidator {
+public class LongUrlValidator {
 
-    public boolean isValidURL(String url) {
-
+    public boolean isValid(String url) {
         URL u = null;
         try {
             u = new URL(url);

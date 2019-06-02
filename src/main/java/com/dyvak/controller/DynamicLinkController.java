@@ -3,10 +3,10 @@ package com.dyvak.controller;
 
 import com.dyvak.entity.DynamicLink;
 import com.dyvak.entity.LongUrl;
-import com.dyvak.exception.NotProperlyRequestException;
-import com.dyvak.exception.UrlNotValidException;
+import com.dyvak.exception.BadRequestException;
+import com.dyvak.exception.NotValidLongUrlException;
 import com.dyvak.service.DynamicLinkService;
-import com.dyvak.validator.UrlValidator;
+import com.dyvak.validator.LongUrlValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +27,27 @@ public class DynamicLinkController {
     private DynamicLinkService dynamicLinkService;
 
     @Autowired
-    private UrlValidator urlValidator;
+    private LongUrlValidator longUrlValidator;
 
     @RequestMapping(method = RequestMethod.POST)
     public DynamicLink createDynamicLink(@RequestBody LongUrl longUrl, HttpServletRequest request) {
         if (longUrl != null && longUrl.getLongUrl() != null) {
             log.info("Get dynamic link");
             log.info(longUrl.toString());
-            // Invoke the appropriate service method and return
-            String url = longUrl.getLongUrl();
 
+            String url = longUrl.getLongUrl();
             String scheme = request.getScheme();
             String serverName = request.getServerName();
 
             log.info("Scheme : {}, Server name : ()", scheme, serverName);
-            if (!url.isBlank() && urlValidator.isValidURL(url)) {
+            if (!url.isBlank() && longUrlValidator.isValid(url)) {
+                // Invoke the appropriate service method and return created DynamicLink
                 return dynamicLinkService.createDynamicLink(url, scheme, serverName);
             } else {
-                throw new UrlNotValidException("Url not valid");
+                throw new NotValidLongUrlException("Url not valid");
             }
         } else {
-            throw new NotProperlyRequestException("Not proper request");
+            throw new BadRequestException("Not proper request");
         }
     }
 }

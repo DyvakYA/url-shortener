@@ -28,7 +28,6 @@ public class LinkGenerator {
                 .map(nextInt::apply)
                 .map(source::charAt)
                 .forEach(sb::append);
-
         return sb.toString();
     }
 
